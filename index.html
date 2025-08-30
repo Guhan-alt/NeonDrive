@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeonDrive — Cars. Culture. Craft.</title>
+  <meta name="description" content="A creative, modern car-enthusiast one-page website with filters, gallery, lightbox, and a build planner tool. Vanilla HTML/CSS/JS." />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="#">
+        <span class="logo-badge">ND</span>
+        <span>NeonDrive</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#builds">Builds</a>
+        <a href="#planner">Planner</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#events">Events</a>
+        <button id="toggleTheme" class="btn" title="Toggle theme">☾ / ☀︎</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">Cars • Culture • Craft</span>
+        <h1 class="title">Where builds go from <span style="background: linear-gradient(90deg, var(--brand-2), var(--brand-3)); -webkit-background-clip:text; background-clip:text; color: transparent;">idea → ignition</span>.</h1>
+        <p class="subtitle">Discover trending community builds, nerd out on specs, plan your next mod, and get inspired by a gallery of machines that actually get driven.</p>
+        <div class="stats">
+          <div class="stat"><b id="stat-builds">0</b><span>Featured Builds</span></div>
+          <div class="stat"><b id="stat-hours">0</b><span>Wrench Hours</span></div>
+          <div class="stat"><b id="stat-meets">0</b><span>Monthly Meets</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="glow-ring"></div>
+        <div style="aspect-ratio: 16/10; border-radius: 14px; overflow: hidden; background: radial-gradient(600px 260px at 60% -10%, rgba(122,252,255,0.18), transparent 60%), linear-gradient(135deg, #0b0e13, #0d1117); display:grid; place-items:center;">
+          <!-- Minimal car SVG -->
+          <svg class="car-svg" viewBox="0 0 640 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Futuristic coupe">
+            <path d="M60 220c10-36 36-60 84-78 72-26 164-34 252-20 24 4 42 12 54 22 22 18 44 30 80 34 26 2 40 10 40 24s-12 22-38 22H116c-30 0-50-1-56-4-10-4-12-10 0-20Z" stroke="url(#g1)" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="180" cy="236" r="34" stroke="url(#g2)" stroke-width="12"/>
+            <circle cx="470" cy="236" r="34" stroke="url(#g2)" stroke-width="12"/>
+            <defs>
+              <linearGradient id="g1" x1="60" y1="200" x2="600" y2="240" gradientUnits="userSpaceOnUse">
+                <stop stop-color="var(--brand-2)"/><stop offset="1" stop-color="var(--brand-3)"/>
+              </linearGradient>
+              <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="var(--brand)"/><stop offset="1" stop-color="var(--brand-3)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <p class="note" style="margin-top:10px">Tip: Toggle theme in the top-right • Scroll for builds ↓</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Builds / Filterable Grid -->
+  <section id="builds" class="section">
+    <div class="container">
+      <h2>Trending Builds</h2>
+      <p class="lead">Filter by scene and sort by what's hot. Click a card to pin details.</p>
+      <div class="controls">
+        <div class="chips" id="chips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="JDM">JDM</button>
+          <button class="chip" data-filter="Muscle">Muscle</button>
+          <button class="chip" data-filter="Euro">Euro</button>
+          <button class="chip" data-filter="EV">EV</button>
+          <button class="chip" data-filter="Track">Track</button>
+        </div>
+        <select id="sort">
+          <option value="pop">Sort: Popular</option>
+          <option value="hp">Sort: Horsepower</option>
+          <option value="year">Sort: Year (new→old)</option>
+        </select>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- Build Planner / Simple Performance Estimator -->
+  <section id="planner" class="section">
+    <div class="container">
+      <h2>Build Planner <span style="font-size:14px; color: var(--muted)">— quick power-to-weight estimator</span></h2>
+      <div class="planner">
+        <div class="panel">
+          <div class="inputs">
+            <label class="field">
+              <span>Power (hp)</span>
+              <input id="hp" type="number" min="50" max="2000" step="10" placeholder="350" />
+            </label>
+            <label class="field">
+              <span>Weight (kg)</span>
+              <input id="kg" type="number" min="600" max="2500" step="10" placeholder="1320" />
+            </label>
+            <label class="field">
+              <span>Traction</span>
+              <select id="traction">
+                <option value="FWD">FWD</option>
+                <option value="RWD" selected>RWD</option>
+                <option value="AWD">AWD</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Aero Level</span>
+              <select id="aero">
+                <option value="street" selected>Street</option>
+                <option value="sport">Sport</option>
+                <option value="track">Track</option>
+              </select>
+            </label>
+          </div>
+          <p class="note">This is a simplified estimate to help compare setups. Real results vary with gearing, tires, tune, driver, and conditions.</p>
+          <button id="calc" class="btn">Estimate 0–100 km/h</button>
+        </div>
+        <div class="panel" id="resultPanel">
+          <h3 style="margin-top:0">Your Estimate</h3>
+          <p class="lead" id="pw">Power-to-Weight: —</p>
+          <div class="stat" style="text-align:left; margin-top:10px">
+            <b id="time">— s</b>
+            <span>0–100 km/h (0–62 mph)</span>
+          </div>
+          <p class="note" id="tip">Try AWD + track aero for traction-limited builds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <h2>Street Lens</h2>
+      <p class="lead">Community shots from meets and midnight runs.</p>
+      <div class="masonry" id="masonry"></div>
+    </div>
+  </section>
+
+  <!-- Events / Timeline -->
+  <section id="events" class="section">
+    <div class="container">
+      <h2>Upcoming Meets</h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div style="display:flex; align-items:center; gap:10px">
+        <span class="logo-badge">ND</span>
+        <div>
+          <b>NeonDrive</b><br/>
+          <small>Built with vanilla HTML • CSS • JS</small>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap">
+        <a class="tag" href="#builds">Builds</a>
+        <a class="tag" href="#planner">Planner</a>
+        <a class="tag" href="#gallery">Gallery</a>
+        <a class="tag" href="#events">Events</a>
+      </div>
+      <small>© <span id="year"></span> NeonDrive. For enthusiasts by enthusiasts.</small>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <img id="lightboxImg" alt="expanded" />
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
