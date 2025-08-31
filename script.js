@@ -1,8 +1,3 @@
-// ------------------------
-// NeonDrive — JavaScript
-// ------------------------
-
-// Theme toggle
 (function themeToggle(){
   const btn = document.getElementById('toggleTheme');
   const saved = localStorage.getItem('neon-theme');
@@ -13,9 +8,9 @@
   });
 })();
 
-// Stats playful counters
+
 (function counters(){
-  const targets = { builds: 126, hours: 4872, meets: 9 };
+  const targets = { builds: 126, hours: 4872, meets: 8 };
   const ids = { builds:'stat-builds', hours:'stat-hours', meets:'stat-meets' };
   Object.keys(targets).forEach(key=>{
     const el = document.getElementById(ids[key]);
@@ -25,17 +20,17 @@
   });
 })();
 
-// Build data
+
 const builds = [
-  { id:1, name:'R32 Skyline GT-R', year:1992, hp:520, tag:'JDM', pop:98 },
-  { id:2, name:'S550 Mustang 5.0', year:2020, hp:480, tag:'Muscle', pop:87 },
-  { id:3, name:'A90 Supra', year:2022, hp:550, tag:'JDM', pop:92 },
-  { id:4, name:'E46 M3 CSL Tribute', year:2005, hp:360, tag:'Euro', pop:83 },
-  { id:5, name:'Model 3 Track Pack', year:2024, hp:510, tag:'EV', pop:90 },
-  { id:6, name:'GR Yaris Track', year:2023, hp:300, tag:'Track', pop:85 },
-  { id:7, name:'1969 Camaro ProTouring', year:1969, hp:650, tag:'Muscle', pop:95 },
-  { id:8, name:'Audi RS6 Avant', year:2021, hp:591, tag:'Euro', pop:88 },
-  { id:9, name:'S2000 AP2', year:2007, hp:350, tag:'JDM', pop:80 },
+  { id:1, name:'Mercedes Benz AMG G63 AMG', year:2019, hp:540, tag:'Suv', pop:98 },
+  { id:2, name:'S60 AMG', year:2020, hp:480, tag:'Sedan', pop:87 },
+  { id:3, name:'Jeep compass', year:2022, hp:550, tag:'Suv', pop:92 },
+  { id:4, name:'BMW 520d', year:2005, hp:360, tag:'Sport', pop:83 },
+  { id:5, name:'Porsche 911', year:2024, hp:510, tag:'Coupe', pop:90 },
+  { id:6, name:'Toyota hilux', year:2023, hp:300, tag:'Pickup', pop:85 },
+  { id:7, name:'Toyota corolla', year:1969, hp:650, tag:'Sedan', pop:95 },
+  { id:8, name:'Audi A8', year:2021, hp:591, tag:'Sport', pop:88 },
+  { id:9, name:'Porsche 911', year:2007, hp:350, tag:'Coupe', pop:80 },
 ];
 
 const grid = document.getElementById('grid');
@@ -43,20 +38,9 @@ const chips = document.getElementById('chips');
 const sortSel = document.getElementById('sort');
 
 function carSVG(){
-  return `
-    <svg class="car-svg" viewBox="0 0 640 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M60 220c10-36 36-60 84-78 72-26 164-34 252-20 24 4 42 12 54 22 22 18 44 30 80 34 26 2 40 10 40 24s-12 22-38 22H116c-30 0-50-1-56-4-10-4-12-10 0-20Z" stroke="url(#g1)" stroke-width="10" stroke-linecap="round"/>
-      <circle cx="180" cy="236" r="34" stroke="url(#g2)" stroke-width="12"/>
-      <circle cx="470" cy="236" r="34" stroke="url(#g2)" stroke-width="12"/>
-      <defs>
-        <linearGradient id="g1" x1="60" y1="200" x2="600" y2="240" gradientUnits="userSpaceOnUse">
-          <stop stop-color="var(--brand-2)"/><stop offset="1" stop-color="var(--brand-3)"/>
-        </linearGradient>
-        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
-          <stop stop-color="var(--brand)"/><stop offset="1" stop-color="var(--brand-3)"/>
-        </linearGradient>
-      </defs>
-    </svg>`;
+  return `<img src="https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+    alt="Featured Car"
+    style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`;
 }
 
 
@@ -124,54 +108,54 @@ function toast(text){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // ... (existing variable declarations)
+// ... (existing variable declarations)
 
-  function estimate0to100(hp, kg, traction, aero) {
-    const pw = hp / (kg / 1000);
-    let time = 7.5 - (pw * 0.7); // This line needs to be inside the function
+  function estimate0to100(hp, kg, traction, aero) {
+    const pw = hp / (kg / 1000);
+    let time = 7.5 - (pw * 0.7); // This line needs to be inside the function
 
-    if (traction === 'AWD') time -= 0.6;
-    else if (traction === 'RWD') time -= 0.2;
-    else if (traction === 'FWD') time += 0.2;
+    if (traction === 'AWD') time -= 0.6;
+    else if (traction === 'RWD') time -= 0.2;
+    else if (traction === 'FWD') time += 0.2;
 
-    if (aero === 'track') time -= 0.3;
-    else if (aero === 'sport') time -= 0.15;
+    if (aero === 'track') time -= 0.3;
+    else if (aero === 'sport') time -= 0.15;
 
-    time = Math.max(2.5, Math.min(time, 15));
-    return { pw: pw.toFixed(2), time: time.toFixed(2) };
-  }
+    time = Math.max(2.5, Math.min(time, 15));
+    return { pw: pw.toFixed(2), time: time.toFixed(2) };
+  }
 
-  calcBtn.addEventListener('click', function() {
-    const hp = parseFloat(hpInput.value) || 0;
-    const kg = parseFloat(kgInput.value) || 0;
-    const traction = tractionInput.value;
-    const aero = aeroInput.value;
+  calcBtn.addEventListener('click', function() {
+    const hp = parseFloat(hpInput.value) || 0;
+    const kg = parseFloat(kgInput.value) || 0;
+    const traction = tractionInput.value;
+    const aero = aeroInput.value;
 
-    if (hp < 50 || kg < 600) {
-      pwOut.textContent = 'Power-to-Weight: —';
-      timeOut.textContent = '— s';
-      tipOut.textContent = 'Please enter realistic values.';
-      return;
-    }
+    if (hp < 50 || kg < 600) {
+      pwOut.textContent = 'Power-to-Weight: —';
+      timeOut.textContent = '— s';
+      tipOut.textContent = 'Please enter realistic values.';
+      return;
+    }
 
-    const result = estimate0to100(hp, kg, traction, aero);
-    pwOut.textContent = `Power-to-Weight: ${result.pw} hp/ton`;
-    timeOut.textContent = `${result.time} s`;
-    tipOut.textContent = 'Try AWD + track aero for traction-limited builds.';
-  });
+    const result = estimate0to100(hp, kg, traction, aero);
+    pwOut.textContent = `Power-to-Weight: ${result.pw} hp/ton`;
+    timeOut.textContent = `${result.time} s`;
+    tipOut.textContent = 'Try AWD + track aero for traction-limited builds.';
+  });
 });
 
 // Gallery (placeholder Unsplash-like IDs via picsum.photos)
 const gallery = [
-  'https://picsum.photos/id/1011/800/600',
-  'https://picsum.photos/id/1018/800/600',
-  'https://picsum.photos/id/1020/800/600',
-  'https://picsum.photos/id/1035/800/600',
-  'https://picsum.photos/id/1043/800/600',
-  'https://picsum.photos/id/1050/800/600',
-  'https://picsum.photos/id/1069/800/600',
-  'https://picsum.photos/id/1074/800/600',
-  'https://picsum.photos/id/1084/800/600'
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds',
+  'https://imageio.forbes.com/specials-images/imageserve/662a31af99e46c1cee6d2206/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds'
 ];
 
 const masonry = document.getElementById('masonry');
@@ -191,9 +175,9 @@ lb.addEventListener('click', ()=> lb.classList.remove('active'));
 
 // Timeline events (sample)
 const events = [
-  { when:'Sat • 7 Sep', what:'Cars & Coffee — Riverside Lot', note:'8:00–11:00 · Free · Family friendly' },
+  { when:'Sat • 7 Sep', what:'Cars & Coffee — Riverside Lot', note:'8:00-11:00 · Free · Family friendly' },
   { when:'Fri • 20 Sep', what:'Night Run — Coastal Loop', note:'Meet 10:30 PM · Fuel full · Radios on' },
-  { when:'Sun • 6 Oct', what:'Autocross Round 3', note:'9:00–16:00 · Helmets provided · Sign-up closes 1 Oct' }
+  { when:'Sun • 6 Oct', what:'Autocross Round 3', note:'9:00-16:00 · Helmets provided · Sign-up closes 1 Oct' }
 ];
 const timeline = document.getElementById('timeline');
 events.forEach(ev=>{
